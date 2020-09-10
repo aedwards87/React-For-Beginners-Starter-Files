@@ -1,3 +1,16 @@
+import { useState, useEffect } from 'react'
+
+export const useLocalStorage = (key, initial) => {
+  const item = JSON.parse(window.localStorage.getItem(key))
+  const [value, setValue] = useState(item || initial)
+
+  useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(value))
+  }, [value, key, initial])
+
+  return [value, setValue]
+}
+
 export function formatPrice(cents) {
   return (cents / 100).toLocaleString("en-US", {
     style: "currency",
